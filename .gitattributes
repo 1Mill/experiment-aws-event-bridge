@@ -1,2 +1,11 @@
 # Auto detect text files and perform LF normalization
-* text=auto
+*        text=auto
+
+*.bash   eol=lf
+*.bashrc eol=lf
+*.config eol=lf
+*.hcl    eol=lf
+*.pem    eol=lf
+*.sh     eol=lf
+*.tf     eol=lf
+*.tfvars eol=lf
