@@ -1,0 +1,8 @@
+# General
+.env
+
+# Node
+node_modules
+
+# Terraform
+.terraform
