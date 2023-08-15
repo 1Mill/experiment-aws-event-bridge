@@ -19,6 +19,10 @@ provider "aws" {
 	}
 }
 
-module "event_bridge" { source = "./src/event-bridge" }
+module "event_bridge" {
+	source = "./src/event-bridge"
+
+	lambda_arn = module.lambda.arn
+}
 
 module "lambda" { source = "./src/profile-generator-lambda" }

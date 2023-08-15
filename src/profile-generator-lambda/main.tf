@@ -6,3 +6,5 @@ module "lambda" {
 	environment = { NODE_ENV = "production" }
 	function    = { name = "profile-generator-lambda" }
 }
+
+output "arn" { value = module.lambda.lambda.lambda_function_arn }
