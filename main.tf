@@ -18,3 +18,5 @@ provider "aws" {
 		}
 	}
 }
+
+module "lambda" { source = "./src/profile-generator-lambda" }
