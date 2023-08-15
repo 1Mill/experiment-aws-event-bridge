@@ -3,5 +3,5 @@
 ## Running terraform
 
 ```bash
-aws-vault exec sff-erik -- terrafrom init
+aws-vault exec sff-erik --no-session -- terrafrom init
 ```
