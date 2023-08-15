@@ -14,7 +14,7 @@ provider "aws" {
 		tags = {
 			environment          = "prod"
 			pii                  = false
-			terragrunt_base_path = "1Mill/experimental-aws-event-bridge"
+			terragrunt_base_path = "1Mill/experiment-aws-event-bridge"
 		}
 	}
 }
