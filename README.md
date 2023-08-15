@@ -1,6 +1,5 @@
 # experiment-aws-event-bridge
 
-
 ## Running terraform
 
 ```bash
