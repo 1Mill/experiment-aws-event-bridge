@@ -22,4 +22,29 @@ variable "lambda_arn" { type = string }
 # }
 
 # ! Part 2 - Do the same as Part 1 but use AWS Terraform Modules.
+module "eventbridge" {
+	source  = "terraform-aws-modules/eventbridge/aws"
+	version = "~> 2.3.0"
 
+	create_bus = false
+
+	rules = {
+		crons = { schedule_expression = "rate(1 minute)" }
+	}
+
+	targets = {
+		crons = [
+			{
+				arn  = var.lambda_arn
+				name = "profile-generator-lambda-event-rule"
+			}
+		]
+	}
+}
+
+resource "aws_lambda_permission" "this" {
+	action        = "lambda:InvokeFunction"
+	function_name = var.lambda_arn
+	principal     = "events.amazonaws.com"
+	source_arn    = module.eventbridge.eventbridge_rule_arns["crons"]
+}
