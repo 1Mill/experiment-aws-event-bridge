@@ -29,7 +29,12 @@ module "eventbridge" {
 	create_bus = false
 
 	rules = {
-		crons = { schedule_expression = "rate(1 minute)" }
+		crons = { schedule_expression = "rate(1234 minutes)" }
+		something = {
+			event_pattern = jsonencode({
+				source = ["myapp.something"]
+			})
+		}
 	}
 
 	targets = {
@@ -39,12 +44,25 @@ module "eventbridge" {
 				name = "profile-generator-lambda-event-rule"
 			}
 		]
+		something = [
+			{
+				arn  = var.lambda_arn
+				name = "something-rule"
+			}
+		]
 	}
 }
 
-resource "aws_lambda_permission" "this" {
+resource "aws_lambda_permission" "crons" {
 	action        = "lambda:InvokeFunction"
 	function_name = var.lambda_arn
 	principal     = "events.amazonaws.com"
 	source_arn    = module.eventbridge.eventbridge_rule_arns["crons"]
+}
+
+resource "aws_lambda_permission" "something" {
+	action        = "lambda:InvokeFunction"
+	function_name = var.lambda_arn
+	principal     = "events.amazonaws.com"
+	source_arn    = module.eventbridge.eventbridge_rule_arns["something"]
 }
