@@ -86,11 +86,16 @@ variable "lambda_arn" { type = string }
 # }
 
 # ! Part 4 - Do the same as Part 1 but with in-house module
-module "eventbridge_invoke_lambda_rule" {
+module "invoke_lambda_by_pattern" {
 	source = "./modules/eventbridge-invoke-lambda-rule"
 
 	lambda = { arn = var.lambda_arn }
-	rule = {
-		event_pattern = jsonencode({ source = ["myapp.testing-something-new"] })
-	}
+	rule   = { event_pattern = jsonencode({ source = ["myapp.testing-something-new"] }) }
+}
+
+module "invoke_lambda_by_schedule" {
+	source = "./modules/eventbridge-invoke-lambda-rule"
+
+	lambda = { arn = var.lambda_arn }
+	rule   = { schedule_expression = "rate(1234 minutes)" }
 }
