@@ -68,8 +68,19 @@ variable "lambda_arn" { type = string }
 # }
 
 # ! Part 3 - Do the same as Part 1 but use Cloud Posse module
-module "cloudwatch_event" {
-	source  = "cloudposse/cloudwatch-events/aws"
-  	version = "~> 0.6.1"
-}
+# module "cloudwatch_event" {
+# 	source  = "cloudposse/cloudwatch-events/aws"
+#   	version = "~> 0.6.1"
 
+# 	name          = "somename"
+
+# 	cloudwatch_event_rule_pattern = { source = ["myapp.something"] }
+# 	cloudwatch_event_target_arn   = var.lambda_arn
+# }
+
+# resource "aws_lambda_permission" "this" {
+# 	action        = "lambda:InvokeFunction"
+# 	function_name = var.lambda_arn
+# 	principal     = "events.amazonaws.com"
+# 	source_arn    = module.cloudwatch_event.aws_cloudwatch_event_rule_arn
+# }
