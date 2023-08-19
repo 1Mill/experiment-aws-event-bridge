@@ -22,47 +22,54 @@ variable "lambda_arn" { type = string }
 # }
 
 # ! Part 2 - Do the same as Part 1 but use AWS Terraform Modules.
-module "eventbridge" {
-	source  = "terraform-aws-modules/eventbridge/aws"
-	version = "~> 2.3.0"
+# module "eventbridge" {
+# 	source  = "terraform-aws-modules/eventbridge/aws"
+# 	version = "~> 2.3.0"
 
-	create_bus = false
+# 	create_bus = false
 
-	rules = {
-		crons = { schedule_expression = "rate(1234 minutes)" }
-		something = {
-			event_pattern = jsonencode({
-				source = ["myapp.something"]
-			})
-		}
-	}
+# 	rules = {
+# 		crons = { schedule_expression = "rate(1234 minutes)" }
+# 		something = {
+# 			event_pattern = jsonencode({
+# 				source = ["myapp.something"]
+# 			})
+# 		}
+# 	}
 
-	targets = {
-		crons = [
-			{
-				arn  = var.lambda_arn
-				name = "profile-generator-lambda-event-rule"
-			}
-		]
-		something = [
-			{
-				arn  = var.lambda_arn
-				name = "something-rule"
-			}
-		]
-	}
+# 	targets = {
+# 		crons = [
+# 			{
+# 				arn  = var.lambda_arn
+# 				name = "profile-generator-lambda-event-rule"
+# 			}
+# 		]
+# 		something = [
+# 			{
+# 				arn  = var.lambda_arn
+# 				name = "something-rule"
+# 			}
+# 		]
+# 	}
+# }
+
+# resource "aws_lambda_permission" "crons" {
+# 	action        = "lambda:InvokeFunction"
+# 	function_name = var.lambda_arn
+# 	principal     = "events.amazonaws.com"
+# 	source_arn    = module.eventbridge.eventbridge_rule_arns["crons"]
+# }
+
+# resource "aws_lambda_permission" "something" {
+# 	action        = "lambda:InvokeFunction"
+# 	function_name = var.lambda_arn
+# 	principal     = "events.amazonaws.com"
+# 	source_arn    = module.eventbridge.eventbridge_rule_arns["something"]
+# }
+
+# ! Part 3 - Do the same as Part 1 but use Cloud Posse module
+module "cloudwatch_event" {
+	source  = "cloudposse/cloudwatch-events/aws"
+  	version = "~> 0.6.1"
 }
 
-resource "aws_lambda_permission" "crons" {
-	action        = "lambda:InvokeFunction"
-	function_name = var.lambda_arn
-	principal     = "events.amazonaws.com"
-	source_arn    = module.eventbridge.eventbridge_rule_arns["crons"]
-}
-
-resource "aws_lambda_permission" "something" {
-	action        = "lambda:InvokeFunction"
-	function_name = var.lambda_arn
-	principal     = "events.amazonaws.com"
-	source_arn    = module.eventbridge.eventbridge_rule_arns["something"]
-}
