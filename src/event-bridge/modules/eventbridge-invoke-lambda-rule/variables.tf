@@ -1,6 +1,6 @@
 variable "lambda" {
 	type = object({
-	  arn = string
+		arn = string
 	})
 }
 
