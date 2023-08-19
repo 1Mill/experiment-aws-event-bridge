@@ -84,3 +84,14 @@ variable "lambda_arn" { type = string }
 # 	principal     = "events.amazonaws.com"
 # 	source_arn    = module.cloudwatch_event.aws_cloudwatch_event_rule_arn
 # }
+
+# ! Part 4 - Do the same as Part 1 but with in-house module
+module "eventbridge_invoke_lambda_rule" {
+	source = "./modules/eventbridge-invoke-lambda-rule"
+
+	lambda = { arn = var.lambda_arn }
+	rule = {
+		event_pattern = jsonencode({ source = ["myapp.testing-something-new"] })
+		name          = "my-own-rule"
+	}
+}
