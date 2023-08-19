@@ -92,6 +92,5 @@ module "eventbridge_invoke_lambda_rule" {
 	lambda = { arn = var.lambda_arn }
 	rule = {
 		event_pattern = jsonencode({ source = ["myapp.testing-something-new"] })
-		name          = "my-own-rule"
 	}
 }

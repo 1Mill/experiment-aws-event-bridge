@@ -1,7 +1,6 @@
 resource "aws_cloudwatch_event_rule" "this" {
-	description         = var.rule.description
 	event_pattern       = var.rule.event_pattern
-	name                = var.rule.name
+	name_prefix         = "eventbridge-invoke-lambda-rule-"
 	schedule_expression = var.rule.schedule_expression
 }
 
