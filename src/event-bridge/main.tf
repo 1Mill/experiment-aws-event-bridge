@@ -99,3 +99,14 @@ module "invoke_lambda_by_schedule" {
 	lambda = { arn = var.lambda_arn }
 	rule   = { schedule_expression = "rate(1234 minutes)" }
 }
+
+module "invoke_lambda_by_details" {
+	source = "./modules/eventbridge-invoke-lambda-rule"
+
+	lambda = { arn = var.lambda_arn }
+	rule   = { event_pattern = jsonencode({
+		detail = {
+			state = ["some-placeholder-state"]
+		}
+	}) }
+}
