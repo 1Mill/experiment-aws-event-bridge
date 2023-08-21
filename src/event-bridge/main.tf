@@ -121,3 +121,14 @@ module "invoke_lambda_by_cloudevent" {
 		}
 	}) }
 }
+
+module "invoke_lambda_by_cloudevent_wschannelid" {
+	source = "./modules/eventbridge-invoke-lambda-rule"
+
+	lambda = { arn = var.lambda_arn }
+	rule   = { event_pattern = jsonencode({
+		detail = {
+			wschannelid = [ { exists = true  } ]
+		}
+	}) }
+}
