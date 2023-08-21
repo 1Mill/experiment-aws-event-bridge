@@ -110,3 +110,14 @@ module "invoke_lambda_by_details" {
 		}
 	}) }
 }
+
+module "invoke_lambda_by_cloudevent" {
+	source = "./modules/eventbridge-invoke-lambda-rule"
+
+	lambda = { arn = var.lambda_arn }
+	rule   = { event_pattern = jsonencode({
+		detail = {
+			type = ["cmd.placeholder.v0"]
+		}
+	}) }
+}
