@@ -10,4 +10,54 @@ module "lambda" {
 	}
 }
 
-output "arn" { value = module.lambda.lambda.lambda_function_arn }
+locals { arn = module.lambda.lambda.lambda_function_arn }
+
+output "arn" { value = local.arn }
+
+# ! Part 5 - Move Part 4 to responsibility of Lambda
+module "invoke_lambda_by_pattern" {
+	source = "../event-bridge/modules/eventbridge-invoke-lambda-rule"
+
+	lambda = { arn = local.arn }
+	rule   = { event_pattern = jsonencode({ source = ["myapp.testing-something-new"] }) }
+}
+
+module "invoke_lambda_by_schedule" {
+	source = "../event-bridge/modules/eventbridge-invoke-lambda-rule"
+
+	lambda = { arn = local.arn }
+	rule   = { schedule_expression = "rate(1234 minutes)" }
+}
+
+module "invoke_lambda_by_details" {
+	source = "../event-bridge/modules/eventbridge-invoke-lambda-rule"
+
+	lambda = { arn = local.arn }
+	rule   = { event_pattern = jsonencode({
+		detail = {
+			state = ["some-placeholder-state"]
+		}
+	}) }
+}
+
+module "invoke_lambda_by_cloudevent" {
+	source = "../event-bridge/modules/eventbridge-invoke-lambda-rule"
+
+	lambda = { arn = local.arn }
+	rule   = { event_pattern = jsonencode({
+		detail = {
+			type = ["cmd.placeholder.v0"]
+		}
+	}) }
+}
+
+module "invoke_lambda_by_cloudevent_wschannelid" {
+	source = "../event-bridge/modules/eventbridge-invoke-lambda-rule"
+
+	lambda = { arn = local.arn }
+	rule   = { event_pattern = jsonencode({
+		detail = {
+			wschannelid = [ { exists = true  } ]
+		}
+	}) }
+}

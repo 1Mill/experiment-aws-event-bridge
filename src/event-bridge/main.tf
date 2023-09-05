@@ -86,49 +86,49 @@ variable "lambda_arn" { type = string }
 # }
 
 # ! Part 4 - Do the same as Part 1 but with in-house module
-module "invoke_lambda_by_pattern" {
-	source = "./modules/eventbridge-invoke-lambda-rule"
+# module "invoke_lambda_by_pattern" {
+# 	source = "./modules/eventbridge-invoke-lambda-rule"
 
-	lambda = { arn = var.lambda_arn }
-	rule   = { event_pattern = jsonencode({ source = ["myapp.testing-something-new"] }) }
-}
+# 	lambda = { arn = var.lambda_arn }
+# 	rule   = { event_pattern = jsonencode({ source = ["myapp.testing-something-new"] }) }
+# }
 
-module "invoke_lambda_by_schedule" {
-	source = "./modules/eventbridge-invoke-lambda-rule"
+# module "invoke_lambda_by_schedule" {
+# 	source = "./modules/eventbridge-invoke-lambda-rule"
 
-	lambda = { arn = var.lambda_arn }
-	rule   = { schedule_expression = "rate(1234 minutes)" }
-}
+# 	lambda = { arn = var.lambda_arn }
+# 	rule   = { schedule_expression = "rate(1234 minutes)" }
+# }
 
-module "invoke_lambda_by_details" {
-	source = "./modules/eventbridge-invoke-lambda-rule"
+# module "invoke_lambda_by_details" {
+# 	source = "./modules/eventbridge-invoke-lambda-rule"
 
-	lambda = { arn = var.lambda_arn }
-	rule   = { event_pattern = jsonencode({
-		detail = {
-			state = ["some-placeholder-state"]
-		}
-	}) }
-}
+# 	lambda = { arn = var.lambda_arn }
+# 	rule   = { event_pattern = jsonencode({
+# 		detail = {
+# 			state = ["some-placeholder-state"]
+# 		}
+# 	}) }
+# }
 
-module "invoke_lambda_by_cloudevent" {
-	source = "./modules/eventbridge-invoke-lambda-rule"
+# module "invoke_lambda_by_cloudevent" {
+# 	source = "./modules/eventbridge-invoke-lambda-rule"
 
-	lambda = { arn = var.lambda_arn }
-	rule   = { event_pattern = jsonencode({
-		detail = {
-			type = ["cmd.placeholder.v0"]
-		}
-	}) }
-}
+# 	lambda = { arn = var.lambda_arn }
+# 	rule   = { event_pattern = jsonencode({
+# 		detail = {
+# 			type = ["cmd.placeholder.v0"]
+# 		}
+# 	}) }
+# }
 
-module "invoke_lambda_by_cloudevent_wschannelid" {
-	source = "./modules/eventbridge-invoke-lambda-rule"
+# module "invoke_lambda_by_cloudevent_wschannelid" {
+# 	source = "./modules/eventbridge-invoke-lambda-rule"
 
-	lambda = { arn = var.lambda_arn }
-	rule   = { event_pattern = jsonencode({
-		detail = {
-			wschannelid = [ { exists = true  } ]
-		}
-	}) }
-}
+# 	lambda = { arn = var.lambda_arn }
+# 	rule   = { event_pattern = jsonencode({
+# 		detail = {
+# 			wschannelid = [ { exists = true  } ]
+# 		}
+# 	}) }
+# }
