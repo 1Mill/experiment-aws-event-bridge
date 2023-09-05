@@ -1,6 +1,6 @@
 module "lambda" {
-	version = "~> 2.1"
-  	source  = "1Mill/serverless-docker-function/aws"
+	source  = "1Mill/serverless-docker-function/aws"
+	version = "~> 3.0"
 
 	docker      = { build = abspath(path.module) }
 	environment = { NODE_ENV = "production" }
