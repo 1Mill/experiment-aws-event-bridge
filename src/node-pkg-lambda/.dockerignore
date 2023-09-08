@@ -2,6 +2,7 @@
 
 !.dockerignore
 !dockerfile
+
 !index.js
 !package-lock.json
 !package.json
