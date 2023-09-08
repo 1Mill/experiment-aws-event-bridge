@@ -1,0 +1,6 @@
+version: 2.0
+shards:
+  crambda:
+    git: https://github.com/lambci/crambda.git
+    version: 0.2.0
+

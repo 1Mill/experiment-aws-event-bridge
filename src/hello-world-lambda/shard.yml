@@ -1,0 +1,11 @@
+name: main
+version: 0.0.1
+
+dependencies:
+  crambda:
+    github: lambci/crambda
+    version: 0.2.0
+
+targets:
+  bootstrap:
+    main: ./main.cr

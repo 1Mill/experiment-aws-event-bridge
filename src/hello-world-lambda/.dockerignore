@@ -1,0 +1,8 @@
+*
+
+!.dockerignore
+!dockerfile
+
+!main.cr
+!shard.lock
+!shard.yml
