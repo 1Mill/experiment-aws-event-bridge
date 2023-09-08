@@ -6,7 +6,7 @@ module "lambda" {
 	environment = { CRYSTAL_ENV = "production" }
 	function    = {
 		name    = "crystal-lambda"
-		# version = "some-static-value-to-avoid-docker-rebuilds"
+		version = "some-static-value-to-avoid-docker-rebuilds"
 	}
 }
 
