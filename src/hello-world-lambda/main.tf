@@ -5,7 +5,7 @@ module "lambda" {
 	docker      = { build = abspath(path.module) }
 	environment = { NODE_ENV = "production" }
 	function    = {
-		name    = "profile-generator-lambda"
+		name    = "hello-world-lambda"
 		version = "some-static-value-to-avoid-docker-rebuilds"
 	}
 }
