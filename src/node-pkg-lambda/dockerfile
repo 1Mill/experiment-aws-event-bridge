@@ -1,3 +1,4 @@
+# * ===
 FROM node:18-alpine as builder
 
 WORKDIR /app
@@ -7,12 +8,13 @@ COPY . .
 RUN \
 	npm i -g pkg@^5.8.1 && \
 	npm ci && \
-	pkg index.js --output handler
+	pkg index.js --output bootstrap
 
+# * ===
 FROM alpine:latest
 
 WORKDIR /
 
-COPY --from=builder /app/handler .
+COPY --from=builder /app/bootstrap .
 
-CMD ["./handler"]
+CMD ["/bootstrap"]
