@@ -6,7 +6,7 @@ module "lambda" {
 	environment = { NODE_ENV = "production" }
 	function    = {
 		name    = "profile-generator-lambda"
-		version = "some-static-value-to-avoid-docker-rebuilds"
+		# version = "some-static-value-to-avoid-docker-rebuilds"
 	}
 }
 
