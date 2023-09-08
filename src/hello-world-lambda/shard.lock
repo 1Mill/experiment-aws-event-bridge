@@ -4,3 +4,7 @@ shards:
     git: https://github.com/lambci/crambda.git
     version: 0.2.0
 
+  faker:
+    git: https://github.com/askn/faker.git
+    version: 0.8.0
+
