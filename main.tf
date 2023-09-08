@@ -22,8 +22,8 @@ provider "aws" {
 module "event_bridge" {
 	source = "./src/event-bridge"
 
-	lambda_arn = module.lambda.arn
+	lambda_arn = module.node-lambda.arn
 }
 
-module "hello_world_lambda" { source = "./src/hello-world-lambda" }
-module "lambda" { source = "./src/profile-generator-lambda" }
+module "crystal-lambda" { source = "./src/crystal-lambda" }
+module "node-lambda" { source = "./src/node-lambda" }
