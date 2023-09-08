@@ -29,3 +29,4 @@ module "event_bridge" {
 
 module "crystal-lambda" { source = "./src/crystal-lambda" }
 module "node-lambda" { source = "./src/node-lambda" }
+module "node-pgk-lambda" { source = "./src/node-pkg-lambda" }
