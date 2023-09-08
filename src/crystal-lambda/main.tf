@@ -3,7 +3,7 @@ module "lambda" {
 	version = "~> 3.1"
 
 	docker      = { build = abspath(path.module) }
-	environment = { NODE_ENV = "production" }
+	environment = { CRYSTAL_ENV = "production" }
 	function    = {
 		name    = "crystal-lambda"
 		# version = "some-static-value-to-avoid-docker-rebuilds"
