@@ -1,14 +1,18 @@
-FROM public.ecr.aws/lambda/nodejs:18
+FROM node:18-alpine as builder
 
-WORKDIR $LAMBDA_TASK_ROOT
-
-ENV \
-	NODE_ENV=production
+WORKDIR /app
 
 COPY . .
-RUN \
-	npm ci && \
-	find . -type d -exec chmod 755 {} \; && \
-	find . -type f -exec chmod 644 {} \;
 
-CMD [ "index.handler" ]
+RUN \
+	npm i -g pkg@^5.8.1 && \
+	npm ci && \
+	pkg index.js --output handler
+
+FROM alpine:latest
+
+WORKDIR /
+
+COPY --from=builder /app/handler .
+
+CMD ["./handler"]
