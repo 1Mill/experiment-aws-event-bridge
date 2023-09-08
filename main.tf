@@ -25,4 +25,5 @@ module "event_bridge" {
 	lambda_arn = module.lambda.arn
 }
 
+module "hello_world_lambda" { source = "./src/hello-world-lambda" }
 module "lambda" { source = "./src/profile-generator-lambda" }
