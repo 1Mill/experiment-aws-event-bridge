@@ -1,5 +1,9 @@
 # experiment-aws-event-bridge
 
+## Notes
+
+* `node-pkg-lambda` does not work yet.
+
 ## References
 
 * <https://rahullokurte.com/how-to-invoke-an-aws-lambda-function-at-scheduled-intervals-with-aws-eventbridge-rule-using-terraform>

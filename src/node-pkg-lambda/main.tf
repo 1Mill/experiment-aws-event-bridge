@@ -6,6 +6,7 @@ module "lambda" {
 	environment = { NODE_ENV = "production" }
 	function    = {
 		name    = "node-pgk-lambda"
+		timeout = 7
 		# version = "some-static-value-to-avoid-docker-rebuilds"
 	}
 }
