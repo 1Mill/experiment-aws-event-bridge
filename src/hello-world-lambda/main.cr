@@ -12,7 +12,7 @@ def handler(cloudevent : JSON::Any, context : Crambda::Context)
 
 	{
 		body: { profile }.to_json,
-		headers: { 'Content-Type': 'application/json' },
+		headers: { "Content-Type": "application/json" },
 		statusCode: 200,
 	}
 end
