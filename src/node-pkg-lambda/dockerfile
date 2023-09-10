@@ -8,12 +8,14 @@ COPY . .
 RUN \
 	npm i -g pkg@^5.8.1 && \
 	npm ci && \
-	pkg index.js --output bootstrap
+	pkg ./index.js --output bootstrap
 
 # * ===
-FROM alpine:latest
+FROM alpine:3
 
 WORKDIR /
+
+RUN apk add --no-cache gcompat~=1
 
 COPY --from=builder /app/bootstrap .
 

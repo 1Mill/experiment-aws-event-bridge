@@ -1,20 +1,27 @@
-const { faker } = require('@faker-js/faker');
+const main = () => {
+	console.log('Hello world!')
+	return 'bbbb'
+}
 
-exports.handler = async (cloudevent = {}, ctx = {}) => {
-	console.log('starting')
+main()
 
-	const profile = {
-		firstName: faker.person.firstName(),
-		lastName: faker.person.lastName(),
-		phoneNumber: faker.phone.number(),
-		vehicleType: faker.vehicle.model(),
-	}
+// const { faker } = require('@faker-js/faker');
 
-	console.log('profile generated')
+// exports.handler = async (cloudevent = {}, ctx = {}) => {
+// 	console.log('starting')
 
-	return {
-		body: JSON.stringify({ profile }),
-		headers: { 'Content-Type': 'application/json' },
-		statusCode: 200,
-	}
-};
+// 	const profile = {
+// 		firstName: faker.person.firstName(),
+// 		lastName: faker.person.lastName(),
+// 		phoneNumber: faker.phone.number(),
+// 		vehicleType: faker.vehicle.model(),
+// 	}
+
+// 	console.log('profile generated')
+
+// 	return {
+// 		body: JSON.stringify({ profile }),
+// 		headers: { 'Content-Type': 'application/json' },
+// 		statusCode: 200,
+// 	}
+// };

@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  app:
+    build: ./src/node-pkg-lambda
+    # volumes:
+    #   - ./src/node-pkg-lambda:/app
+
+  cyt:
+    build: ./src/crystal-lambda
