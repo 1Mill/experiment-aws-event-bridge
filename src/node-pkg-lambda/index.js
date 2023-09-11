@@ -28,7 +28,7 @@ const main = async (handler) => {
 			invokedFunctionArn: invokeResponse.headers.get('Lambda-Runtime-Invoked-Function-Arn'),
 
 			deadlineMs,
-			getRemainingTimeInMillis: () => deadlineMs - Date.UTC().valueOf(),
+			getRemainingTimeInMillis: () => deadlineMs - new Date().getTime(),
 		}
 
 		// * Get event as JSON from response
@@ -49,7 +49,11 @@ const main = async (handler) => {
 }
 
 const handler = async (cloudevent = {}, ctx = {}) => {
+	console.log('Time remaining: ', ctx.getRemainingTimeInMillis())
+
 	console.log(ctx)
+
+	console.log('Time remaining: ', ctx.getRemainingTimeInMillis())
 
 	const profile = {
 		firstName: faker.person.firstName(),
@@ -57,6 +61,8 @@ const handler = async (cloudevent = {}, ctx = {}) => {
 		phoneNumber: faker.phone.number(),
 		vehicleType: faker.vehicle.model(),
 	}
+
+	console.log('Time remaining: ', ctx.getRemainingTimeInMillis())
 
 	return {
 		body: JSON.stringify({ profile }),
