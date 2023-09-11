@@ -1,21 +1,26 @@
 const fetch = require('node-fetch')
 
-const main = async () => {
-	console.log('hello world')
+// * To create a custom runtime for AWS, lambda, we fetch our event from and return our payload to
+// * the base url that they provide us. https://docs.aws.amazon.com/lambda/latest/dg/runtimes-api.html
+const BASE_URL = `http://${process.env.AWS_LAMBDA_RUNTIME_API}/2018-06-01/runtime/invocation`
 
+const main = async () => {
 	while (true) {
-		const invokeResponse = await fetch(`http://${process.env.AWS_LAMBDA_RUNTIME_API}/2018-06-01/runtime/invocation/next`)
+		// * Fetch event from AWS
+		const invokeResponse = await fetch(`${BASE_URL}/next`)
 		if (!invokeResponse.ok) {
 			throw new Error(`Unexpected response when invoking: ${invokeResponse.status} ${invokeResponse.statusText}`)
 		}
 
+		// * Get event as JSON from response
 		const event = await invokeResponse.json()
-		console.log({ event })
 
+		// * Generate our results
 		const result = 'aaaaa'
 
+		// * Return our results to any request waiting for our results (i.e. invocationType: "RequestResponse")
 		const awsRequestId = invokeResponse.headers.get('Lambda-Runtime-Aws-Request-Id')
-		const returnResponse = await fetch(`http://${process.env.AWS_LAMBDA_RUNTIME_API}/2018-06-01/runtime/invocation/${awsRequestId}/response`, {
+		const returnResponse = await fetch(`${BASE_URL}/${awsRequestId}/response`, {
 			body: JSON.stringify({ event, result }),
 			method: 'POST',
 		})
