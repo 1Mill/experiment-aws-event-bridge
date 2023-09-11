@@ -8,13 +8,13 @@ const BASE_URL = `http://${process.env.AWS_LAMBDA_RUNTIME_API}/2018-06-01/runtim
 const main = async (handler) => {
 	while (true) {
 		// * Fetch event from AWS
-		const invokeResponse = await fetch(`${BASE_URL}/next`)
-		if (!invokeResponse.ok) {
-			throw new Error(`Unexpected response when invoking: ${invokeResponse.status} ${invokeResponse.statusText}`)
+		const eventResponse = await fetch(`${BASE_URL}/next`)
+		if (!eventResponse.ok) {
+			throw new Error(`Unexpected response when invoking: ${eventResponse.status} ${eventResponse.statusText}`)
 		}
 
 		// * Fetch Lambda context from environment and invoke request.
-		const deadlineMs = invokeResponse.headers.get('Lambda-Runtime-Deadline-Ms')
+		const deadlineMs = eventResponse.headers.get('Lambda-Runtime-Deadline-Ms')
 		const context = {
 			functionName:    process.env.AWS_LAMBDA_FUNCTION_NAME,
 			functionVersion: process.env.AWS_LAMBDA_FUNCTION_VERSION,
@@ -22,28 +22,28 @@ const main = async (handler) => {
 			logStreamName:   process.env.AWS_LAMBDA_LOG_STREAM_NAME,
 			memoryLimitInMb: process.env.AWS_LAMBDA_FUNCTION_MEMORY_SIZE,
 
-			awsRequestId:       invokeResponse.headers.get('Lambda-Runtime-Aws-Request-Id'),
-			clientContext:      invokeResponse.headers.get('Lambda-Runtime-Client-Context'),
-			identity:           invokeResponse.headers.get('Lambda-Runtime-Cognito-Identity'),
-			invokedFunctionArn: invokeResponse.headers.get('Lambda-Runtime-Invoked-Function-Arn'),
+			awsRequestId:       eventResponse.headers.get('Lambda-Runtime-Aws-Request-Id'),
+			clientContext:      eventResponse.headers.get('Lambda-Runtime-Client-Context'),
+			identity:           eventResponse.headers.get('Lambda-Runtime-Cognito-Identity'),
+			invokedFunctionArn: eventResponse.headers.get('Lambda-Runtime-Invoked-Function-Arn'),
 
 			deadlineMs,
 			getRemainingTimeInMillis: () => deadlineMs - new Date().getTime(),
 		}
 
 		// * Get event as JSON from response
-		const event = await invokeResponse.json()
+		const event = await eventResponse.json()
 
 		// * Generate our results
 		const result = await handler(event, context)
 
 		// * Return our results to any request waiting for our results (i.e. invocationType: "RequestResponse")
-		const returnResponse = await fetch(`${BASE_URL}/${context.awsRequestId}/response`, {
+		const requestResponse = await fetch(`${BASE_URL}/${context.awsRequestId}/response`, {
 			body: JSON.stringify({ result }),
 			method: 'POST',
 		})
-		if (returnResponse.status !== 202) {
-			throw new Error(`Unexpected response when responding: ${returnResponse.status} ${returnResponse.statusText}`)
+		if (requestResponse.status !== 202) {
+			throw new Error(`Unexpected response when responding: ${requestResponse.status} ${requestResponse.statusText}`)
 		}
 	}
 }
