@@ -6,7 +6,7 @@ module "lambda" {
 	environment = { GO_ENV = "production" }
 	function    = {
 		name    = "go-lambda"
-		# version = "some-static-value-to-avoid-docker-rebuilds"
+		version = "some-static-value-to-avoid-docker-rebuilds"
 	}
 }
 
