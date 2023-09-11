@@ -3,6 +3,8 @@ require "faker"
 require "json"
 
 def handler(cloudevent : JSON::Any, context : Crambda::Context)
+	pp context
+
 	profile = {
 		firstName: Faker::Name.first_name,
 		lastName: Faker::Name.last_name,

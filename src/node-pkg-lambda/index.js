@@ -13,15 +13,32 @@ const main = async (handler) => {
 			throw new Error(`Unexpected response when invoking: ${invokeResponse.status} ${invokeResponse.statusText}`)
 		}
 
+		// * Fetch Lambda context from environment and invoke request.
+		const deadlineMs = invokeResponse.headers.get('Lambda-Runtime-Deadline-Ms')
+		const context = {
+			functionName:    process.env.AWS_LAMBDA_RUNTIME_API,
+			functionVersion: process.env.AWS_LAMBDA_FUNCTION_VERSION,
+			logGroupName:    process.env.AWS_LAMBDA_LOG_GROUP_NAME,
+			logStreamName:   process.env.AWS_LAMBDA_LOG_STREAM_NAME,
+			memoryLimitInMb: process.env.AWS_LAMBDA_FUNCTION_MEMORY_SIZE,
+
+			awsRequestId:       invokeResponse.headers.get('Lambda-Runtime-Aws-Request-Id'),
+			clientContext:      invokeResponse.headers.get('Lambda-Runtime-Client-Context'),
+			identity:           invokeResponse.headers.get('Lambda-Runtime-Cognito-Identity'),
+			invokedFunctionArn: invokeResponse.headers.get('Lambda-Runtime-Invoked-Function-Arn'),
+
+			deadlineMs,
+			getRemainingTimeInMillis: () => deadlineMs - Date.UTC().valueOf(),
+		}
+
 		// * Get event as JSON from response
 		const event = await invokeResponse.json()
 
 		// * Generate our results
-		const result = await handler(event, { todo: true }) // TODO: Pass through AWS Lambda context
+		const result = await handler(event, context)
 
 		// * Return our results to any request waiting for our results (i.e. invocationType: "RequestResponse")
-		const awsRequestId = invokeResponse.headers.get('Lambda-Runtime-Aws-Request-Id')
-		const returnResponse = await fetch(`${BASE_URL}/${awsRequestId}/response`, {
+		const returnResponse = await fetch(`${BASE_URL}/${context.awsRequestId}/response`, {
 			body: JSON.stringify({ result }),
 			method: 'POST',
 		})
@@ -32,7 +49,7 @@ const main = async (handler) => {
 }
 
 const handler = async (cloudevent = {}, ctx = {}) => {
-	console.log('starting')
+	console.log(ctx)
 
 	const profile = {
 		firstName: faker.person.firstName(),
@@ -40,8 +57,6 @@ const handler = async (cloudevent = {}, ctx = {}) => {
 		phoneNumber: faker.phone.number(),
 		vehicleType: faker.vehicle.model(),
 	}
-
-	console.log('profile generated')
 
 	return {
 		body: JSON.stringify({ profile }),

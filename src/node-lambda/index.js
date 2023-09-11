@@ -1,6 +1,8 @@
 const { faker } = require('@faker-js/faker');
 
 exports.handler = async (cloudevent = {}, ctx = {}) => {
+	console.log(ctx)
+
 	const profile = {
 		firstName: faker.person.firstName(),
 		lastName: faker.person.lastName(),
