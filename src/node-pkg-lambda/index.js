@@ -16,7 +16,7 @@ const main = async (handler) => {
 		// * Fetch Lambda context from environment and invoke request.
 		const deadlineMs = invokeResponse.headers.get('Lambda-Runtime-Deadline-Ms')
 		const context = {
-			functionName:    process.env.AWS_LAMBDA_RUNTIME_API,
+			functionName:    process.env.AWS_LAMBDA_FUNCTION_NAME,
 			functionVersion: process.env.AWS_LAMBDA_FUNCTION_VERSION,
 			logGroupName:    process.env.AWS_LAMBDA_LOG_GROUP_NAME,
 			logStreamName:   process.env.AWS_LAMBDA_LOG_STREAM_NAME,
