@@ -3,23 +3,25 @@ const fetch = require('node-fetch')
 const main = async () => {
 	console.log('hello world')
 
-	const invokeResponse = await fetch(`http://${process.env.AWS_LAMBDA_RUNTIME_API}/2018-06-01/runtime/invocation/next`)
-	if (!invokeResponse.ok) {
-		throw new Error(`Unexpected response when invoking: ${invokeResponse.status} ${invokeResponse.statusText}`)
-	}
+	while (true) {
+		const invokeResponse = await fetch(`http://${process.env.AWS_LAMBDA_RUNTIME_API}/2018-06-01/runtime/invocation/next`)
+		if (!invokeResponse.ok) {
+			throw new Error(`Unexpected response when invoking: ${invokeResponse.status} ${invokeResponse.statusText}`)
+		}
 
-	const event = await invokeResponse.json()
-	console.log({ event })
+		const event = await invokeResponse.json()
+		console.log({ event })
 
-	const result = 'aaaaa'
+		const result = 'aaaaa'
 
-	const awsRequestId = invokeResponse.headers.get('Lambda-Runtime-Aws-Request-Id')
-	const returnResponse = await fetch(`http://${process.env.AWS_LAMBDA_RUNTIME_API}/2018-06-01/runtime/invocation/${awsRequestId}/response`, {
-		body: JSON.stringify({ event, result }),
-		method: 'POST',
-	})
-	if (returnResponse.status !== 202) {
-		throw new Error(`Unexpected response when responding: ${returnResponse.status} ${returnResponse.statusText}`)
+		const awsRequestId = invokeResponse.headers.get('Lambda-Runtime-Aws-Request-Id')
+		const returnResponse = await fetch(`http://${process.env.AWS_LAMBDA_RUNTIME_API}/2018-06-01/runtime/invocation/${awsRequestId}/response`, {
+			body: JSON.stringify({ event, result }),
+			method: 'POST',
+		})
+		if (returnResponse.status !== 202) {
+			throw new Error(`Unexpected response when responding: ${returnResponse.status} ${returnResponse.statusText}`)
+		}
 	}
 }
 
