@@ -8,6 +8,7 @@ COPY . .
 
 RUN \
 	apk add --no-cache git~=2 && \
+	go install && \
 	go build .
 
 # * ===
