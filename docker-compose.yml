@@ -1,11 +1,11 @@
 version: '3.8'
 
 services:
-  app:
+  pkg:
     build:
       dockerfile: ./src/node-pkg-lambda/dockerfile.node
     volumes:
       - ./src/node-pkg-lambda:/app
 
-  cyt:
+  crystal:
     build: ./src/crystal-lambda
