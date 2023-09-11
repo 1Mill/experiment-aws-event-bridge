@@ -1,0 +1,10 @@
+# * ===
+FROM node:18-alpine as builder
+
+WORKDIR /app
+
+COPY . .
+
+RUN \
+	apk add --no-cache gcompat~=1 && \
+	npm i -g pkg@^5.8.1
