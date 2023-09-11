@@ -6,6 +6,3 @@
 !index.js
 !package-lock.json
 !package.json
-
-!dev.secrets.sops.json
-!prod.secrets.sops.json
