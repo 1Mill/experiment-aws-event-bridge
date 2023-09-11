@@ -7,7 +7,7 @@ module "lambda" {
 	function    = {
 		name    = "node-pgk-lambda"
 		timeout = 3
-		# version = "some-static-value-to-avoid-docker-rebuilds"
+		version = "some-static-value-to-avoid-docker-rebuilds"
 	}
 }
 
