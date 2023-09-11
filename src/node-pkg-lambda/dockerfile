@@ -8,7 +8,7 @@ COPY . .
 RUN \
 	npm i -g pkg@^5.8.1 && \
 	npm ci && \
-	pkg ./index.js --output bootstrap
+	pkg ./index.js --compress Brotli --output bootstrap
 
 # * ===
 FROM alpine:3
