@@ -1,0 +1,18 @@
+# syntax=docker/dockerfile:1
+# * ===
+FROM golang:1-alpine as builder
+
+WORKDIR /app
+
+COPY . .
+
+RUN \
+	apk add --no-cache git~=2 && \
+	go build .
+
+# * ===
+FROM public.ecr.aws/lambda/go:1
+
+COPY --from=builder /app/m .
+
+CMD [ "/m" ]
